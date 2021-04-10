@@ -121,6 +121,14 @@ public class VCardBuilder {
     private StringBuilder mBuilder;
     private boolean mEndAppended;
 
+    /**
+     * UNISOC:Bug474812 Add for usim phone type display
+     * @{
+     */
+    private static final int TYPE_FIXED_NUMBER = 222;
+    /*
+     * @}
+     */
     public VCardBuilder(final int vcardType) {
         // Default charset should be used
         this(vcardType, null);
@@ -1621,6 +1629,17 @@ public class VCardBuilder {
                 parameterList.add(VCardConstants.PARAM_TYPE_VOICE);
                 break;
             }
+            /**
+             * UNISOC:Bug474812 Add for usim phone type display
+             * @{
+             */
+            case TYPE_FIXED_NUMBER: {
+                parameterList.add(VCardConstants.PARAM_TYPE_VOICE);
+                break;
+           }
+           /**
+            * @}
+            */
             case Phone.TYPE_CAR: {
                 parameterList.add(VCardConstants.PARAM_TYPE_CAR);
                 break;

@@ -1,11 +1,18 @@
-apply plugin: 'java'
+apply plugin: 'com.android.library'
 
-sourceSets {
-    main {
-        java.srcDirs = ['java']
+android {
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['java']
+//            logtags.srcDirs = ['java']
+        }
     }
-}
 
-dependencies {
-    compile getAndroidPrebuilt('9')
+    lintOptions {
+        // TODO: fix errors and reenable.
+        abortOnError false
+    }
 }

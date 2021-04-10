@@ -465,11 +465,30 @@ public class VCardComposer {
             // return createOneEntryInternal("-1", getEntityIteratorMethod);
         }
 
+        /**
+         * UNISOC:Bug620312 use multi threads to export contacts.
+         *
+         * Original Android code:
         final String vcard = createOneEntryInternal(mCursor.getLong(mIdColumn),
                 getEntityIteratorMethod);
         if (!mCursor.moveToNext()) {
             Log.e(LOG_TAG, "Cursor#moveToNext() returned false");
         }
+        * * @{
+        */
+
+        long column = 0;
+        synchronized(mCursor) {
+            column = mCursor.getLong(mIdColumn);
+            if (!mCursor.moveToNext()) {
+                Log.e(LOG_TAG, "Cursor#moveToNext() returned false");
+            }
+        }
+        final String vcard = createOneEntryInternal(column,
+                getEntityIteratorMethod);
+        /*
+         * @}
+         */
         return vcard;
     }
 
@@ -664,11 +683,27 @@ public class VCardComposer {
      * when this object is not ready yet.
      */
     public boolean isAfterLast() {
+        /**
+         * UNISOC:Bug620312 use multi threads to export contacts.
+         *
+         * Original Android code:
         if (mCursor == null) {
             Log.w(LOG_TAG, "This object is not ready yet.");
             return false;
         }
         return mCursor.isAfterLast();
+        * * @{
+        */
+         if (mCursor == null) {
+             Log.w(LOG_TAG, "This object is not ready yet.");
+             return false;
+         }
+         synchronized(mCursor) {
+            return mCursor.isAfterLast();
+         }
+         /*
+          * @}
+          */
     }
 
     /**

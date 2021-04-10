@@ -70,7 +70,19 @@ public class VCardEntryCommitter implements VCardEntryHandler {
         final long start = System.currentTimeMillis();
         mOperationList = vcardEntry.constructInsertOperations(mContentResolver, mOperationList);
         mCounter++;
+        /*
+        * UNISOC:
+        *   Bug 411733 Optimize the speed of importing vCard contacts.
+        *
+        * @orig
         if (mCounter >= 20) {
+        *
+        * @{
+        */
+        if (mOperationList != null && mOperationList.size() >= 490) {
+        /*
+        * @}
+        */
             mCreatedUris.add(pushIntoContentResolver(mOperationList));
             mCounter = 0;
             mOperationList = null;

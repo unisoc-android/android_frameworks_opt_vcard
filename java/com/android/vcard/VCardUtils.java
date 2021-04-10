@@ -788,9 +788,10 @@ public class VCardUtils {
         }
 
         final String rawString = builder.toString();
-        if (TextUtils.isEmpty(rawString)) {
-            Log.w(LOG_TAG, "Given raw string is empty.");
-        }
+        //UNISOC:modify for Bug607758
+        //if (TextUtils.isEmpty(rawString)) {
+        //    Log.w(LOG_TAG, "Given raw string is empty.");
+        //}
 
         byte[] rawBytes = null;
         try {
